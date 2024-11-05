@@ -11,7 +11,7 @@ type Parking struct {
     spaces      chan int
     entrance    *sync.Mutex
     spacesArray [10]bool
-    observers   []Observer // Lista de observadores
+    observers   []Observer 
 }
 
 func NewParking(spaces chan int, entrance *sync.Mutex) *Parking {
@@ -23,7 +23,7 @@ func NewParking(spaces chan int, entrance *sync.Mutex) *Parking {
     }
 }
 
-// Métodos para gestionar los observadores
+
 func (p *Parking) RegisterObserver(observer Observer) {
     p.observers = append(p.observers, observer)
 }
@@ -34,13 +34,13 @@ func (p *Parking) NotifyObservers(spaceAvailable bool) {
     }
 }
 
-// Método para gestionar la salida del coche y notificar a los observadores
+
 func (p *Parking) ExitCar(carsContainer *fyne.Container, carImage *canvas.Image) {
     carImage.Move(fyne.NewPos(205, 350))
     carsContainer.Add(carImage)
     carsContainer.Refresh()
 
-    // Notificar a los observadores que hay un espacio disponible
+   
     p.NotifyObservers(true)
 }
 

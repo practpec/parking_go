@@ -17,10 +17,10 @@ type Car struct {
     image       *canvas.Image
     space       int
     exitImage   *canvas.Image
-    notified    bool // Para rastrear si el coche ha recibido una notificación
+    notified    bool 
 }
 
-// Constructor de Carros
+
 func NewCar(id int) *Car {
     carImages := []string{
         "./assets/yellow.png",
@@ -56,7 +56,7 @@ func NewCar(id int) *Car {
     }
 }
 
-// Implementación de la interfaz Observer
+
 func (c *Car) Update(spaceAvailable bool) {
     if spaceAvailable && !c.notified {
         fmt.Printf("Coche %d: Notificado de espacio disponible\n", c.id)
@@ -130,7 +130,7 @@ func (c *Car) Goout(p *Parking, carsContainer *fyne.Container, statusText *canva
 }
 
 func (c *Car) Park(p *Parking, carsContainer *fyne.Container, wg *sync.WaitGroup, statusText *canvas.Text) {
-    p.RegisterObserver(c) // Registrar el coche como observador
+    p.RegisterObserver(c) 
 
     for i := 0; i < 7; i++ {
         c.image.Move(fyne.NewPos(c.image.Position().X+20, c.image.Position().Y))

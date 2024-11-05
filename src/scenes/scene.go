@@ -82,7 +82,7 @@ func (s *Scene) Run() {
     p := models.NewParking(make(chan int, 10), &sync.Mutex{})
     randomGen := models.NewRandom()
     var wg sync.WaitGroup
-    creationLimiter := make(chan struct{}, 1) // Canal para limitar la creación de coches
+    creationLimiter := make(chan struct{}, 1)
 
     for i := 0; i < 100; i++ {
         wg.Add(1)
@@ -93,7 +93,7 @@ func (s *Scene) Run() {
     fmt.Println("Acabo")
 }
 
-// Función nombrada para crear un coche
+
 func (s *Scene) createCar(id int, p *models.Parking, wg *sync.WaitGroup, creationLimiter chan struct{}, randomGen *models.Random) {
     creationLimiter <- struct{}{}
     defer func() { <-creationLimiter }()
@@ -106,14 +106,14 @@ func (s *Scene) createCar(id int, p *models.Parking, wg *sync.WaitGroup, creatio
     carsContainer.Add(carImage)
     carsContainer.Refresh()
 
-    // Aparcar el coche en otro goroutine
+
     go s.parkCar(car, p, carsContainer, wg)
 
     var randNumber = randomGen.Generate(float64(1))
     time.Sleep(time.Second * time.Duration(randNumber))
 }
 
-// Función nombrada para aparcar un coche
+
 func (s *Scene) parkCar(car *models.Car, p *models.Parking, carsContainer *fyne.Container, wg *sync.WaitGroup) {
     car.Park(p, carsContainer, wg, s.statusText)
 }
